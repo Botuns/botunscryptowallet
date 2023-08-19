@@ -1,3 +1,6 @@
+// import {ethers} from './ethers'
+import { ethers } from "ethers"
+// const ethers = require('./ethers')
 document.addEventListener('DOMContentLoaded',function(){
     // to target elements here:
     document.getElementById("accountList").addEventListener('click',changeAccount)
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded',function(){
 // ehter : https://eth-mainnet.g.alchemy.com/v2/aiNNPk3EY-HNElee8nbvQ7jcXZ9XwgkI
 let providerURL ='https://polygon-mumbai.g.alchemy.com/v2/lRRkOwGVYoTiIjcpdVv-8WaiWeIr-cdi';
 
-let provider;
+// let provider;
 let privateKey;
 let address;
 
@@ -42,7 +45,18 @@ function handler(){
     document.getElementById('transfer_center').style.display='flex'
     const amount = document.getElementById('amount').value;
     const address = document.getElementById('address').value;
-    const private_key = ''
+    const private_key = 'ff4481f7181c0e0cb32e864c69d2ea54437eb0731ab0252c3e9a3e46e92ec70c'
+    const testAccount = '0x27777708442f9e0ec7a806661e5e4A0a740CC415'
+
+
+    // provider:
+    const provider = new ethers.JsonRpcApiProvider(providerURL);
+
+    let wallet = new ethers.Wallet(privateKey,provider)
+    const tx = {
+        to: address,
+        value:ethers.utils.parseEther(amount)
+    }
 
 };
 function checkBalance(){};
