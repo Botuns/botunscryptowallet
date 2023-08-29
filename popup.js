@@ -1,6 +1,4 @@
-// import {ethers} from './ethers'
 import { ethers } from "ethers"
-// const ethers = require('./ethers')
 document.addEventListener('DOMContentLoaded',function(){
     // to target elements here:
     document.getElementById("accountList").addEventListener('click',changeAccount)
@@ -48,7 +46,7 @@ function handler(){
     const private_key = 'ff4481f7181c0e0cb32e864c69d2ea54437eb0731ab0252c3e9a3e46e92ec70c'
     const testAccount = '0x27777708442f9e0ec7a806661e5e4A0a740CC415'
 
-
+//  =>
     // provider:
     const provider = new ethers.JsonRpcApiProvider(providerURL);
 
@@ -57,9 +55,29 @@ function handler(){
         to: address,
         value:ethers.utils.parseEther(amount)
     }
+    let a = document.getElementById("link");
+    a.href= 'some-link'
+    wallet.sendTransaction(tx).then((txobj)=>{
+        console.log("tx obj" + txobj.hash)
+        document.getElementById('transaction_center').style.display='none'
+        const a = document.getElementById('link')
+                document.getElementById('link').style.display='block'
+
+
+    })
 
 };
-function checkBalance(){};
+
+function checkBalance(){
+    const provider = new ethers.providers.JsonRpcApiProvider(providerURL)
+
+    provider.getBalance(address).then((balance)=>{
+        const balanceInEth = ethers.utils.formatEther(balance);
+        document.getElementById('accountBalance').innerHTML= `${balanceInEth} MATIC`
+
+        document.getElementById('userAddress').innerHTML= `${address.slice(0,15)}`
+    })
+};
 function getOpenNetWork(){};
 function getSelectedNetwork(){};
 function loginUser(){};
