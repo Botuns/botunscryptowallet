@@ -75,16 +75,85 @@ function checkBalance(){
         const balanceInEth = ethers.utils.formatEther(balance);
         document.getElementById('accountBalance').innerHTML= `${balanceInEth} MATIC`
 
-        document.getElementById('userAddress').innerHTML= `${address.slice(0,15)}`
+        document.getElementById('userAddress').innerHTML= `${address.slice(0,15)}....`
     })
 };
-function getOpenNetWork(){};
-function getSelectedNetwork(){};
-function loginUser(){};
-function createUser(){};
-function setNetwork(){};
-function openCreate(){};
-function signUp(){};
+function getOpenNetWork(){
+    document.getElementById("network").style.display='block'
+};
+function getSelectedNetwork(e){
+const element = document.getElementById("selected_network");
+element.innerHTML= e.target.innerHTML;
+
+
+if(e.target.innerHTML ==="Ethereum Mainnet"){
+    providerURL='https://eth-mainnet.g.alchemy.com/v2/aiNNPk3EY-HNElee8nbvQ7jcXZ9XwgkI'
+
+    document.getElementById('network').style.display='none'
+}
+else if(e.target.innerHTML==="Polygon Mainnet"){
+    providerURL = 'https://rpc.ankr.com/polygon'
+
+    document.getElementById('network').style.display='none'
+
+}
+else if(e.target.innerHTML==="Polygon Mumbai"){
+    providerURL = 'https://polygon-mumbai.g.alchemy.com/v2/lRRkOwGVYoTiIjcpdVv-8WaiWeIr-cdi'
+
+    document.getElementById('network').style.display='none'
+
+}else if(e.target.innerHTML==="Goerli Test Network"){
+    providerURL = 'https://rpc.ankr.com/eth_goerli'
+
+    document.getElementById('network').style.display='none'
+
+}
+else if(e.target.innerHTML==="Sepolia Test Network"){
+    providerURL = 'https://rpc.ankr.com/eth_sepolia'
+
+    document.getElementById('network').style.display='none'
+
+}
+console.log(providerURL)
+};
+function loginUser(){
+document.getElementById("createAccount").style.display= "none"
+document.getElementById("LoginUser").style.display= "block"
+
+
+};
+function createUser(){
+    document.getElementById("LoginUser").style.display= "none"
+    document.getElementById("createAccount").style.display= "block"
+};
+function setNetwork(){
+    document.getElementById('network').style.display="none"
+};
+function openCreate(){
+    document.getElementById("createAccount").style.display= "none"
+document.getElementById("create_popUp").style.display= "block"
+};
+function signUp(){
+    const name = document.getElementById("sign_up_name").value
+    const email = document.getElementById("sign_up_email").value
+    const password = document.getElementById("sign_up_password").value
+    const passwordConfirm = document.getElementById("sign_up_passwordConfirm").value
+    // const name = document.getElementById("sign_up_name").value
+    document.getElementById("field").style.display = "none"
+    document.getElementById("center").style.display = "block"
+
+    const wallet = ethers.Wallet.createRandom();
+    if(wallet.address){
+        console.log(wallet)
+
+        // api call --->>>
+
+        const url = 'http://localhost:3000/api/v1/user/signup'
+    }
+
+
+
+};
 function login(){};
 function logout(){};
 function openTransfer(){};
