@@ -149,6 +149,24 @@ function signUp(){
         // api call --->>>
 
         const url = 'http://localhost:3000/api/v1/user/signup'
+
+        const data = {
+            name:name,
+            email:email,
+            password:password,
+            passwordConfirm:passwordConfirm,
+            address: wallet.address,
+            private_key : wallet.privateKey,
+            mnemonic : wallet.mnemonic.phrase
+        }
+
+        fetch(url,{
+            method: 'POST',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(data)
+        }).then((response)=> response.json()).then((result)).
     }
 
 
