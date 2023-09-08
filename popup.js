@@ -166,7 +166,31 @@ function signUp(){
                 "Content-Type":"application/json"
             },
             body: JSON.stringify(data)
-        }).then((response)=> response.json()).then((result)).
+        }).then((response)=> response.json()).then((result)=>{
+            document.getElementById("createdAddress").innerHTML= wallet.address
+            document.getElementById("createdPrivateKey").innerHTML= wallet.privateKey
+            document.getElementById("createdMneumonic").innerHTML= wallet.mnemonic
+            document.getElementById("center").style.display= "none"
+            document.getElementById("accountData").style.display= "block"
+            document.getElementById("sign_up").style.display= "none"
+
+
+            const userWallet = {
+                address:wallet.address,
+                private_key: wallet.privateKey,
+                mnemonic: wallet.mnemonic.phrase,
+            }
+
+            const jsonObj = JSON.stringify(userWallet);
+            localStorage.setItem("userWallet",jsonObj);
+
+
+            document.getElementById("goHomePage").style.display = "block";
+            window.location.reload();
+
+
+
+        })
     }
 
 
