@@ -190,13 +190,40 @@ function signUp(){
 
 
 
+        }).catch((error)=>{
+            console.log(error)
         })
     }
 
 
 
 };
-function login(){};
+function login(){
+    document.getElementById("login_form").style.display= "none"
+    document.getElementById("center").style.display= "block"
+
+    const email = document.getElementById("login_email").value
+    const password = document.getElementById("login_password").value 
+
+    // api call
+    const url = 'http://localhost:3000/api/v1/user/login';
+
+    const data = {
+        email: email,
+        password:password
+    }
+
+    fetch(url, {
+        method:'POST',
+        handlers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+
+    }).then()
+
+
+};
 function logout(){};
 function openTransfer(){};
 function goBack(){};
