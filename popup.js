@@ -220,23 +220,167 @@ function login(){
         },
         body:JSON.stringify(data)
 
-    }).then()
+    }).then((response)=>response.json()).then((result)=>{
+        console.log(result)
+        const userWallet = {
+            address: result.data.address,
+            private_key:result.data.user.private_key,
+            mnemonic:result.data.user.mneumonic,
+        };
+        const jsonObj = JSON.stringify(userWallet);
+        localStorage.setItem('userWallet',jsonObj);
+        window.location.reload()
+    }).catch((error)=>{
+        console.log(error)
+    });
 
 
 };
-function logout(){};
-function openTransfer(){};
-function goBack(){};
-function openImport(){};
-function importGoBack(){};
-function openActivities(){};
-function openAssets(){};
-function goHome(){};
-function openImoprtModal(){};
-function closeImportModal(){};
-function addToken(){};
-function addAccount(){};
-function myFunction(){};
+function logout(){
+    localStorage.removeItem('userWallet');
+    window.location.reload();
+};
+function openTransfer(){
+    document.getElementById("transfer_from").style.display= 'block';
+    document.getElementById("home").style.display = 'none';
+
+};
+function goBack(){
+    document.getElementById("transfer_from").style.display= 'none';
+    document.getElementById("home").style.display = 'block';
+};
+function openImport(){
+    document.getElementById("import_token").style.display= 'block';
+    document.getElementById("home").style.display = 'none';
+    
+};
+function importGoBack(){
+    document.getElementById("import_token").style.display= 'none';
+    document.getElementById("home").style.display = 'block';
+};
+function openActivities(){
+    document.getElementById("activity").style.display= 'block';
+    document.getElementById("assets").style.display = 'none';
+};
+function openAssets(){
+    document.getElementById("activity").style.display= 'none';
+    document.getElementById("assets").style.display = 'block';
+};
+function goHomePage(){
+    document.getElementById("create_popUp").style.display= 'none';
+    document.getElementById("home").style.display = 'block';
+};
+function openImoprtModal(){
+    document.getElementById("import_account").style.display= 'block';
+    document.getElementById("home").style.display = 'none';
+};
+function closeImportModal(){
+    document.getElementById("import_account").style.display= 'none';
+    document.getElementById("home").style.display = 'block';
+};
+function addToken(){
+    const address = document.getElementById("token_address").value
+    const name = document.getElementById("name").value
+    const symbol = document.getElementById("token_symbol").value
+
+    // api call;;;
+    const url = 'http://localhost:3000/api/v1/tokens/createtoken'
+    // obj data
+    const data= {
+        name: name,
+        address: address,
+        symbol: symbol
+    };
+    fetch(url,{
+        method:'POST',
+        handlers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+    }).then((response)=>response.json()).then((result)=>{
+        console.log(result)
+        window.location.reload();
+    }).catch((error)=>{
+        console.log('ERROR',error);
+    });
+
+};
+function addAccount(){
+    const private_key= document.getElementById("add_account_private_key").value
+
+    const provider = new ethers.providers.JsonRpcApiProvider(providerURL);
+    let wallet = new ethers.Wallet(private_key,provider)
+    console.log(wallet);
+    const url ='http://localhost:3000/api/v1/account/cretaeaccount'
+
+    const data = {
+        privateKey: private_key,
+        address:wallet.address,
+    }
+    fetch(url,{
+        method:'POST',
+        handlers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+    }).then((response)=>response.json()).then((result)=>{
+        console.log(result)
+        window.location.reload();
+    }).catch((error)=>{
+        console.log('ERROR',error);
+    });
+};
+function myFunction(){
+    const str = localStorage.getItem('userWallet');
+    const parsedObj = JSON.parse(str);
+    if(parsedObj && parsedObj.address){
+        document.getElementById('LoginUser').style.display = 'none';
+        document.getElementById('home').style.display = 'block';
+
+        privateKey = parsedObj.private_key;
+        address = parsedObj.address;
+
+        checkBalance(parsedObj.address);
+
+
+    }
+
+    const tokenRender = document.querySelector(".assets");
+    const accountRender = document.querySelector(".accountList");
+
+    const url ='http://localhost:3000/api/v1/tokens/alltokens'
+
+    fetch(url).then((response)=>response.json()).then((data)=>{
+        let elements = "";
+        data.data.tokens.map((token)=>{
+            elements =+ `
+            <div class= "asset_item">
+
+            <img class="assets_item_img"
+            src = "./assets/theblockchaincoders.png"
+            alt=""
+             />
+             <span> ${token.address.slice(0,15)}...</span>
+             <span> ${token.symbol.slice(0,15)}...</span>
+
+            </div>
+            `
+        })
+        tokenRender.innerHTML = elements
+    }).catch((error)=>{
+        console.log(error);
+    });
+    fetch('http://localhost:3000/api/v1/account/allaccount').then((response)=>response.json()).then((data)=>{
+        let accounts = "";
+        data.data.accounts.map((account,i)=>{
+            
+        })
+    })
+
+
+
+
+};
 function copyAddress(){};
 function changeAccount(){};
 
