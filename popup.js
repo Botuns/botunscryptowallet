@@ -373,22 +373,47 @@ function myFunction(){
     fetch('http://localhost:3000/api/v1/account/allaccount').then((response)=>response.json()).then((data)=>{
         let accounts = "";
         data.data.accounts.map((account,i)=>{
-            
+            account +=
+            `
+            <div class="lists">
+            <p>${i+1}</p>
+            <p class="accountValue" data-address= ${account.address} data-privateKey=${account.privateKey}>${account.address.slice(0,25)}...</p>
+            </div>
+            `
         })
+        accountRender.innerHTML=accounts
+    }).catch((error)=>{
+        console.log(error);
     })
 
 
 
 
 };
-function copyAddress(){};
-function changeAccount(){};
+function copyAddress(){
+    navigator.clipboard.writeText(address)
+};
+function changeAccount(){
+    const data = document.querySelector(".accountValue")
+    const address = data.getAttribute("data-address");
+    const privateKey = data.getAttribute("data-privateKey")
+
+    console.log(privateKey,address);
+
+    const userWallet ={
+        address:address,
+        private_key:privateKey,
+        mnemonic:"Changed",
+    }
+    const jsonObj = JSON.stringify(userWallet)
+    localStorage.setItem("userWallet",jsonObj)
+    window.location.reload()
+};
 
 
 
 
 
-
-
+window.onload= myFunction 
 
 
